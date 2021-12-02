@@ -1,7 +1,6 @@
 if __name__ == "__main__":
     input = open("input.txt", "r")
-    values = input.readlines()
-    values = [int(x.strip()) for x in values]
+    values = [int(x.strip()) for x in input.readlines()]
 
     increased = 0
 
