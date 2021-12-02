@@ -27,6 +27,7 @@ def part2(values: List) -> int:
 
 if __name__ == "__main__":
     input = open("input.txt", "r")
+    values = input.readlines()
 
-    print(f"Part 1: {part1(input.readlines())}")
-    print(f"Part 2: {part2(input.readlines())}")
+    print(f"Part 1: {part1(values)}")
+    print(f"Part 2: {part2(values)}")
