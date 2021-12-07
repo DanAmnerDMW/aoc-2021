@@ -6,14 +6,18 @@ def part1(values):
     values = [int(x.strip()) for x in values]
     positions = pd.Series(values)
 
+    # Create index of all possible positions
     idx = pd.RangeIndex(positions.min(), positions.max())
     df = pd.DataFrame(index=idx)
-    df["Distance"] = 0
+    # Set all fuel to 0
+    df["Fuel"] = 0
 
+    # For each crab calculate the distance to reach each possible detination
     for position in positions:
-        df.iloc[df.index, 0] += abs(df.index - position)
+        df.loc[df.index, "Fuel"] += abs(df.index - position)
 
-    return df["Distance"].min()
+    # Get the minimum distance
+    return int(df["Fuel"].min())
 
 
 def part2(values):
@@ -21,15 +25,20 @@ def part2(values):
     values = [int(x.strip()) for x in values]
     positions = pd.Series(values)
 
+    # Create index of all possible positions
     idx = pd.RangeIndex(positions.min(), positions.max())
     df = pd.DataFrame(index=idx)
-    df["Distance"] = 0
+    # Set all fuel to 0
+    df["Fuel"] = 0
 
+    # For each crab calculate the distance to reach each possible detination
     for position in positions:
         distance = abs(df.index - position)
-        df.iloc[df.index, 0] += (distance * (distance + 1)) / 2
+        # Calculate the fuel used (1+2+3+4+5...distance)
+        df.loc[df.index, "Fuel"] += (distance * (distance + 1)) / 2
 
-    return df["Distance"].min()
+    # Get the minimum fuel
+    return int(df["Fuel"].min())
 
 
 if __name__ == "__main__":
