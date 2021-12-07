@@ -11,8 +11,7 @@ def part1(values):
     df["Distance"] = 0
 
     for position in positions:
-        for i in df.index:
-            df.iloc[i, 0] += abs(i - position)
+        df.iloc[df.index, 0] += abs(df.index - position)
 
     return df["Distance"].min()
 
@@ -27,9 +26,8 @@ def part2(values):
     df["Distance"] = 0
 
     for position in positions:
-        for i in df.index:
-            distance = abs(i - position)
-            df.iloc[i, 0] += (distance * (distance + 1)) / 2
+        distance = abs(df.index - position)
+        df.iloc[df.index, 0] += (distance * (distance + 1)) / 2
 
     return df["Distance"].min()
 
