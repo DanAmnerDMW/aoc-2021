@@ -36,42 +36,60 @@ def part2(values):
                 digits[8] = block
                 blocks.remove(block)
 
-        for block in list(blocks):
-            # If 1 overlaps must be 3,9 or 0
-            if all(char in list(block) for char in list(digits[1])):
-                if len(block) == 6:
-                    if all(char in list(block) for char in list(digits[4])):
-                        digits[9] = block
-                        blocks.remove(block)
-                    else:
-                        digits[0] = block
-                        blocks.remove(block)
-                else:
-                    digits[3] = block
-                    blocks.remove(block)
+        blocks, digits = get_3_9_0(blocks, digits)
 
-        # If 6 long mist be 6, else if subset of 9 must be 5 else 2
-        for block in list(blocks):
-            if len(block) == 6:
-                digits[6] = block
-            else:
-                if all(char in list(digits[9]) for char in list(block)):
-                    digits[5] = block
-                else:
-                    digits[2] = block
+        blocks, digits = get_6_5_2(blocks, digits)
 
-            blocks.remove(block)
-
-        # Iterate through results to get reading
-        reading = ""
-        for value in output.strip().split(" "):
-            for i, digit in enumerate(digits):
-                if sorted(list(value)) == sorted(list(digit)):
-                    reading += str(i)
+        reading = get_reading(output, digits)
 
         # Add readings
         result += int(reading)
     return result
+
+
+def get_3_9_0(blocks, digits):
+    for block in list(blocks):
+        # If 1 overlaps must be 3,9 or 0
+        if all(char in list(block) for char in list(digits[1])):
+            if len(block) == 6:
+                if all(char in list(block) for char in list(digits[4])):
+                    digits[9] = block
+                    blocks.remove(block)
+                else:
+                    digits[0] = block
+                    blocks.remove(block)
+            else:
+                digits[3] = block
+                blocks.remove(block)
+
+    return blocks, digits
+
+
+def get_6_5_2(blocks, digits):
+    # If 6 long mist be 6, else if subset of 9 must be 5 else 2
+    for block in list(blocks):
+        if len(block) == 6:
+            digits[6] = block
+        else:
+            if all(char in list(digits[9]) for char in list(block)):
+                digits[5] = block
+            else:
+                digits[2] = block
+
+        blocks.remove(block)
+
+    return blocks, digits
+
+
+def get_reading(output, digits):
+    # Iterate through results to get reading
+    reading = ""
+    for value in output.strip().split(" "):
+        for i, digit in enumerate(digits):
+            if sorted(list(value)) == sorted(list(digit)):
+                reading += str(i)
+
+    return reading
 
 
 if __name__ == "__main__":
